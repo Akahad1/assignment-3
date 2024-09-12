@@ -41,7 +41,32 @@ const getAllBookingFromDB = async () => {
     .populate(["slots"]);
   return result;
 };
+const updateSpcificBookingFromDB = async (
+  id: string,
+  playload: { isConfirmed: string }
+) => {
+  const result = await Booking.findByIdAndUpdate(
+    id,
+    { isConfirmed: playload },
+    {
+      new: true,
+    }
+  );
+  return result;
+};
+const deleteSpcificBookingFromDB = async (id: string) => {
+  const result = await Booking.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    {
+      new: true,
+    }
+  );
+  return result;
+};
 export const bookingServices = {
   createBookingIntoDB,
   getAllBookingFromDB,
+  updateSpcificBookingFromDB,
+  deleteSpcificBookingFromDB,
 };

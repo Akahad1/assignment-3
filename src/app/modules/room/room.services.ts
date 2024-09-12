@@ -14,11 +14,19 @@ const getSpecificRoomInToDB = async (id: string) => {
   return result;
 };
 const upadateSpecificRoomInToDB = async (id: string, playload: TRoom) => {
-  const result = await Rooms.findByIdAndUpdate(id, playload);
+  const result = await Rooms.findByIdAndUpdate(id, playload, {
+    new: true,
+  });
   return result;
 };
 const deleteSpecificRoomsInToDB = async (id: string) => {
-  const result = await Rooms.findByIdAndUpdate(id, { isDeleted: true });
+  const result = await Rooms.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    {
+      new: true,
+    }
+  );
   console.log(result);
   return result;
 };
