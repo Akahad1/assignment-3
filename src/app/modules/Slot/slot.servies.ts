@@ -1,3 +1,6 @@
+import httpStatus from "http-status";
+import { AppError } from "../../error/AppError";
+import { Rooms } from "../room/room.model";
 import { TSlot } from "./slot.interface";
 import { Slot } from "./slot.model";
 
@@ -7,7 +10,6 @@ const createSlotIntoDB = async (playload: TSlot) => {
     return hours * 60 + minutes;
   };
 
-  // Helper function to convert minutes to HH:MM
   const convertToHHMM = (minutes: number): string => {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
@@ -15,23 +17,23 @@ const createSlotIntoDB = async (playload: TSlot) => {
   };
 
   const { room, date, startTime, endTime } = playload;
+  const rooms = await Rooms.findById(room);
+  if (!rooms) {
+    throw new AppError(httpStatus.NOT_FOUND, "this room is no Exist");
+  }
 
   try {
-    const slotDuration = 60; // Slot duration in minutes
+    const slotDuration = 60;
 
-    // Convert startTime and endTime to minutes
     const startMinutes = convertToMT(startTime);
     const endMinutes = convertToMT(endTime);
 
-    // Calculate total duration
     const totalDuration = endMinutes - startMinutes;
 
-    // Calculate number of slots
     const numberOfSlots = totalDuration / slotDuration;
 
     const slots = [];
 
-    // Generate slots
     for (let i = 0; i < numberOfSlots; i++) {
       const slotStartTime = startMinutes + i * slotDuration;
       const slotEndTime = slotStartTime + slotDuration;
