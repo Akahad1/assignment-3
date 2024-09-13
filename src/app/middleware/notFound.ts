@@ -4,7 +4,7 @@ import httpStatus from "http-status";
 export const notFound = (req: Request, res: Response, next: NextFunction) => {
   res.status(httpStatus.NOT_FOUND).json({
     success: false,
-    megssage: "Api not found",
-    error: "",
+    statusCode: 404,
+    message: "Not Found",
   });
 };

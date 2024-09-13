@@ -58,6 +58,36 @@ const createSlotIntoDB = async (playload: TSlot) => {
   }
 };
 
+const getSlotFromDB = async (querya: any) => {
+  const { roomId, date } = querya;
+  const query: any = { isBooked: false };
+
+  if (date) {
+    const startDate = new Date(date as string);
+    const endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + 1);
+
+    query.date = {
+      $gte: startDate.toISOString(),
+      $lt: endDate.toISOString(),
+    };
+  }
+
+  if (roomId) {
+    query.room = roomId;
+  }
+
+  // Find available slots
+  const result = await Slot.find(query)
+    .populate({
+      path: "room",
+      match: { isDeleted: false },
+    })
+    .lean();
+  return result;
+};
+
 export const SlotServices = {
   createSlotIntoDB,
+  getSlotFromDB,
 };
