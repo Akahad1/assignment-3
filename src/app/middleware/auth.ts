@@ -11,9 +11,13 @@ const auth = (...requiredRole: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const bearerToken = req.headers.authorization;
     const token = (bearerToken as string).split(" ")[1];
-    console.log("token", token);
+
     if (!token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "Your are Unauthorize!");
+      return res.status(401).json({
+        success: false,
+        statusCode: 401,
+        message: "You have no access to this route",
+      });
     }
     // invalid token
     const decoded = jwt.verify(
@@ -24,12 +28,20 @@ const auth = (...requiredRole: TUserRole[]) => {
     const { role, email, iat } = decoded;
     const user = await User.findOne({ email });
     if (!user) {
-      throw new AppError(httpStatus.NOT_FOUND, "this user not found");
+      return res.status(401).json({
+        success: false,
+        statusCode: 401,
+        message: "You have no access to this route",
+      });
     }
 
     // role
     if (requiredRole && !requiredRole.includes(role)) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "Your are Unauthorize!");
+      return res.status(401).json({
+        success: false,
+        statusCode: 401,
+        message: "You have no access to this route",
+      });
     }
     req.user = decoded;
     next();

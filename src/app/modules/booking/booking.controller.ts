@@ -21,6 +21,7 @@ const getAllBooking = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 const updateSpcificBooking = catchAsync(async (req, res) => {
   const { id } = req.params;
   const { isConfirmed } = req.body;
@@ -47,9 +48,22 @@ const deleteSpcificBooking = catchAsync(async (req, res) => {
   });
 });
 
+const getMyAllBooking = catchAsync(async (req, res) => {
+  const bearerToken = req.headers.authorization;
+  const token = (bearerToken as string).split(" ")[1];
+  const result = await bookingServices.getAllMYBookingFromDB(token);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User bookings retrieved successfully",
+    data: result,
+  });
+});
+
 export const bookingController = {
   createBooking,
   getAllBooking,
   updateSpcificBooking,
   deleteSpcificBooking,
+  getMyAllBooking,
 };

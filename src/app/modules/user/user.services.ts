@@ -26,6 +26,7 @@ const LoginUserFromDB = async (playload: {
     throw new AppError(httpStatus.NOT_FOUND, "this user not found");
   }
   const jwtPlayload = {
+    user: user._id,
     email: user.email,
     role: user.role,
   };

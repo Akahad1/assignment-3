@@ -4,6 +4,9 @@ import { Rooms } from "../room/room.model";
 import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
 import { User } from "../user/user.model";
+import { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import config from "../../config";
 
 const createBookingIntoDB = async (playload: TBooking) => {
   const { room, slots, user, date, isDeleted } = playload;
@@ -64,9 +67,21 @@ const deleteSpcificBookingFromDB = async (id: string) => {
   );
   return result;
 };
+const getAllMYBookingFromDB = async (token: string) => {
+  const decoded = jwt.verify(token, config.jwt_secret as string) as JwtPayload;
+
+  const { role, user } = decoded;
+  console.log(role, user);
+  const result = await Booking.find({ user })
+    .populate("user")
+    .populate("room")
+    .populate(["slots"]);
+  return result;
+};
 export const bookingServices = {
   createBookingIntoDB,
   getAllBookingFromDB,
   updateSpcificBookingFromDB,
   deleteSpcificBookingFromDB,
+  getAllMYBookingFromDB,
 };
