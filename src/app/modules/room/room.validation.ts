@@ -4,6 +4,7 @@ import { z } from "zod";
 export const roomSchemaZod = z.object({
   body: z.object({
     name: z.string(),
+    Image: z.string(),
     roomNo: z.number().positive("Room number must be a positive number"), // Ensure it's a number
     floorNo: z
       .number()

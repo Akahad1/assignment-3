@@ -6,6 +6,10 @@ export const roomSchema = new Schema<TRoom>({
     type: String,
     required: true,
   },
+  Image: {
+    type: String,
+    required: true,
+  },
   roomNo: {
     type: Number,
     required: true,
