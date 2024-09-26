@@ -6,5 +6,8 @@ const router = express.Router();
 
 router.post("/slots", auth(USER_ROLE.admin), slotController.createSlot);
 router.get("/slots/availability", slotController.getSlot);
+router.get("/slots", slotController.getAllSlot);
+router.get("/slots/:id", slotController.getSpecificSlot);
+router.delete("/slots/:id", slotController.deleteSpecificSlot);
 
 export const slotRouter = router;

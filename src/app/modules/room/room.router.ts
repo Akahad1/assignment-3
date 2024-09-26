@@ -26,7 +26,7 @@ router.get(
 );
 router.put(
   "/rooms/:id",
-  auth(USER_ROLE.admin),
+  // auth(USER_ROLE.admin),
   roomController.upadateSpecificRooms
 );
 router.delete(

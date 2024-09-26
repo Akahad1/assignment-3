@@ -18,10 +18,10 @@ const loginUser = catchAsync(async (req, res) => {
   const result = await userServices.LoginUserFromDB(req.body);
   const { accessToken, refreshToken, _id, name, email, phone, role, address } =
     result;
-  res.cookie("refreshToken", refreshToken, {
-    secure: config.node_env === "production",
-    httpOnly: true,
-  });
+  // res.cookie("refreshToken", refreshToken, {
+  //   secure: config.node_env === "production",
+  //   httpOnly: true,
+  // });
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

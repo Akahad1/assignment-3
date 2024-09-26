@@ -86,8 +86,37 @@ const getSlotFromDB = async (querya: any) => {
     .lean();
   return result;
 };
+const getAllSlotFromDB = async () => {
+  // Find available slots
+  const result = await Slot.find()
+    .populate({
+      path: "room",
+      match: { isDeleted: false },
+    })
+    .lean();
+  return result;
+};
+const getSpecificSlotFromDB = async (id: string) => {
+  // Find available slots
+  const result = await Slot.findById(id)
+    .populate({
+      path: "room",
+      match: { isDeleted: false },
+    })
+    .lean();
+  return result;
+};
+const deleteSlotFromDB = async (id: string) => {
+  // Find available slots
+  const result = await Slot.findByIdAndDelete(id);
+
+  return result;
+};
 
 export const SlotServices = {
   createSlotIntoDB,
   getSlotFromDB,
+  getAllSlotFromDB,
+  getSpecificSlotFromDB,
+  deleteSlotFromDB,
 };
