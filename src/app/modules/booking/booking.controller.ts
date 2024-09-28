@@ -47,6 +47,17 @@ const deleteSpcificBooking = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getSpecificAllBooking = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await bookingServices.getSpecificAllBookingFromDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Get Booking   successfully",
+    data: result,
+  });
+});
 
 const getMyAllBooking = catchAsync(async (req, res) => {
   const bearerToken = req.headers.authorization;
@@ -66,4 +77,5 @@ export const bookingController = {
   updateSpcificBooking,
   deleteSpcificBooking,
   getMyAllBooking,
+  getSpecificAllBooking,
 };

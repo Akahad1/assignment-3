@@ -7,6 +7,7 @@ import { User } from "../user/user.model";
 import { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import config from "../../config";
+import { Slot } from "../Slot/slot.model";
 
 const createBookingIntoDB = async (playload: TBooking) => {
   const { room, slots, user, date, isDeleted } = playload;
@@ -18,7 +19,17 @@ const createBookingIntoDB = async (playload: TBooking) => {
   if (!specificRoom) {
     throw new AppError(httpStatus.NOT_FOUND, "This room is no exists");
   }
+  const [firstSlotId, secondSlotId] = slots;
+  const firstSlot = await Slot.findById(firstSlotId);
 
+  const firstSlotDate = firstSlot?.date.toISOString().split("T")[0] as
+    | string
+    | Date;
+
+  console.log(firstSlotDate);
+  if (firstSlotDate !== date) {
+    throw new AppError(httpStatus.NOT_FOUND, "This date slot is not available");
+  }
   const { pricePerSlot } = specificRoom;
   const totalAmount = pricePerSlot * slots.length;
 
@@ -33,7 +44,9 @@ const createBookingIntoDB = async (playload: TBooking) => {
   };
 
   // const totalAmount
-
+  const updatedSlot = await Slot.findByIdAndUpdate(firstSlotId, {
+    isBooked: true,
+  });
   const result = await Booking.create(bookings);
   return result;
 };
@@ -58,13 +71,13 @@ const updateSpcificBookingFromDB = async (
   return result;
 };
 const deleteSpcificBookingFromDB = async (id: string) => {
-  const result = await Booking.findByIdAndUpdate(
-    id,
-    { isDeleted: true },
-    {
-      new: true,
-    }
-  );
+  const result = await Booking.findByIdAndDelete(id, {
+    new: true,
+  });
+  return result;
+};
+const getSpecificAllBookingFromDB = async (id: string) => {
+  const result = await Booking.findById(id);
   return result;
 };
 const getAllMYBookingFromDB = async (token: string) => {
@@ -84,4 +97,5 @@ export const bookingServices = {
   updateSpcificBookingFromDB,
   deleteSpcificBookingFromDB,
   getAllMYBookingFromDB,
+  getSpecificAllBookingFromDB,
 };

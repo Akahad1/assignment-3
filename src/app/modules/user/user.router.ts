@@ -11,4 +11,5 @@ router.post(
   userController.createUser
 );
 router.post("/auth/login", userController.loginUser);
+router.get("/user/:id", userController.getSpacaficUser);
 export const userRoute = router;

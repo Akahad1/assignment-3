@@ -52,9 +52,9 @@ const upadateSpecificRoomInToDB = async (id: string, playload: TRoom) => {
   return result;
 };
 const deleteSpecificRoomsInToDB = async (id: string) => {
-  const result = await Rooms.findByIdAndUpdate(
+  const result = await Rooms.findByIdAndDelete(
     id,
-    { isDeleted: true },
+
     {
       new: true,
     }

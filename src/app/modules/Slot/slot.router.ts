@@ -9,5 +9,6 @@ router.get("/slots/availability", slotController.getSlot);
 router.get("/slots", slotController.getAllSlot);
 router.get("/slots/:id", slotController.getSpecificSlot);
 router.delete("/slots/:id", slotController.deleteSpecificSlot);
+router.put("/slots/:id", slotController.updateSpecificSlot);
 
 export const slotRouter = router;

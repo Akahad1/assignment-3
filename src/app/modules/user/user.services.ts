@@ -53,7 +53,12 @@ const LoginUserFromDB = async (playload: {
     address,
   };
 };
+const getSpacaficUserFromDB = async (id: string) => {
+  const result = await User.findById(id);
+  return result;
+};
 export const userServices = {
   createUserIntoDB,
   LoginUserFromDB,
+  getSpacaficUserFromDB,
 };

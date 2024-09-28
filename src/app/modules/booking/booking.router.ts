@@ -7,6 +7,7 @@ const route = express.Router();
 
 route.post("/bookings", auth(USER_ROLE.user), bookingController.createBooking);
 route.get("/bookings", auth(USER_ROLE.admin), bookingController.getAllBooking);
+
 route.get(
   "/my-bookings",
   auth(USER_ROLE.user),

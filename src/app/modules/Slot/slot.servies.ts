@@ -112,6 +112,15 @@ const deleteSlotFromDB = async (id: string) => {
 
   return result;
 };
+const updateSpecificSlotIntoDB = async (playload: any) => {
+  // Find available slots
+  const { id, body } = playload;
+  const result = await Slot.findByIdAndUpdate(id, body, {
+    new: true,
+  });
+
+  return result;
+};
 
 export const SlotServices = {
   createSlotIntoDB,
@@ -119,4 +128,5 @@ export const SlotServices = {
   getAllSlotFromDB,
   getSpecificSlotFromDB,
   deleteSlotFromDB,
+  updateSpecificSlotIntoDB,
 };

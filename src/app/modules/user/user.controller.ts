@@ -37,7 +37,18 @@ const loginUser = catchAsync(async (req, res) => {
     },
   });
 });
+const getSpacaficUser = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await userServices.getSpacaficUserFromDB(id);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Rooms retrieved successfully",
+    data: result,
+  });
+});
 export const userController = {
   createUser,
   loginUser,
+  getSpacaficUser,
 };
