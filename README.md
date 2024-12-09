@@ -121,5 +121,5 @@ Ensure to set the appropriate environment variables for production.
 
 ## Contact
 
-For any inquiries or issues, feel free to reach out at: [your-email@example.com].
+For any inquiries or issues, feel free to reach out at: [ashrafulkarim234@gmail.com].
 
